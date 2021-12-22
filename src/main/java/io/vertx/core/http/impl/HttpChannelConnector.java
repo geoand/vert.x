@@ -16,6 +16,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.pcap.PcapWriteHandler;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.vertx.core.AsyncResult;
@@ -36,6 +37,9 @@ import io.vertx.core.net.impl.VertxHandler;
 import io.vertx.core.spi.metrics.ClientMetrics;
 import io.vertx.core.spi.metrics.HttpClientMetrics;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -164,6 +168,11 @@ public class HttpChannelConnector {
     if (options.getLogActivity()) {
       pipeline.addLast("logging", new LoggingHandler());
     }
+//    try {
+//      pipeline.addLast("capturing", new PcapWriteHandler(new FileOutputStream("/home/gandrian/Desktop/test.pcap", true)));
+//    } catch (IOException e) {
+//      throw new UncheckedIOException(e);
+//    }
     pipeline.addLast("codec", new HttpClientCodec(
       options.getMaxInitialLineLength(),
       options.getMaxHeaderSize(),

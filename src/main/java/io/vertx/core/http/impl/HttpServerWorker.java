@@ -15,6 +15,7 @@ import io.netty.channel.*;
 import io.netty.handler.codec.haproxy.HAProxyMessageDecoder;
 import io.netty.handler.codec.http.HttpContentDecompressor;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.pcap.PcapWriteHandler;
 import io.netty.handler.ssl.SniHandler;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
@@ -35,7 +36,15 @@ import io.vertx.core.net.impl.VertxHandler;
 import io.vertx.core.net.impl.HAProxyMessageCompletionHandler;
 import io.vertx.core.spi.metrics.HttpServerMetrics;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.function.Supplier;
 
 /**
@@ -252,6 +261,11 @@ public class HttpServerWorker implements Handler<Channel> {
     if (logEnabled) {
       pipeline.addLast("logging", new LoggingHandler());
     }
+//    try {
+//      pipeline.addLast("capturing", new PcapWriteHandler(new FileOutputStream("/home/gandrian/Desktop/test.pcap", true)));
+//    } catch (IOException e) {
+//      throw new UncheckedIOException(e);
+//    }
     if (HttpServerImpl.USE_FLASH_POLICY_HANDLER) {
       pipeline.addLast("flashpolicy", new FlashPolicyHandler());
     }
