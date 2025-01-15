@@ -45,7 +45,7 @@ class FileCache {
 
     // the cacheDir will be suffixed a unique id to avoid eavesdropping from other processes/users
     // also this ensures that if process A deletes cacheDir, it won't affect process B
-    String cacheDirName = fileCacheDir + "-" + UUID.randomUUID();
+    String cacheDirName = fileCacheDir + "-" + System.nanoTime();
     File cacheDir = new File(cacheDirName);
     // Create the cache directory
     try {

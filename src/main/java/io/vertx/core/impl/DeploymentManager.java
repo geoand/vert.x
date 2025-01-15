@@ -46,7 +46,7 @@ public class DeploymentManager {
   }
 
   private String generateDeploymentID() {
-    return UUID.randomUUID().toString();
+    return Long.valueOf(System.nanoTime()).toString();
   }
 
   public Future<String> deployVerticle(Callable<Verticle> verticleSupplier, DeploymentOptions options) {
